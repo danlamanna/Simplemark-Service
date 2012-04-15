@@ -1,5 +1,7 @@
 from bookmark_tag.models import Bookmark, Tag, Bookmark_Tag
 
+from helpers.ajax import ajax_error, ajax_success
+
 from django.http import HttpRequest, HttpResponse
 
 from django.views.decorators.csrf import csrf_exempt
@@ -28,7 +30,7 @@ def get_bookmarks(request):
 
         bookmark_response.append(resp)
 
-    return HttpResponse(dumps(bookmark_response))
+    return HttpResponse(dumps(ajax_success(bookmark_response)))
 
 # ^api/bookmark/add
 @csrf_exempt
@@ -37,7 +39,7 @@ def add_bookmark(request):
     has_tags            = ("tags" in request.POST)
     
     if (not has_required_fields):
-        return HttpResponse('0')
+        return HttpResponse(dumps(ajax_error('Missing required fields.')))
     elif (has_tags):
         tags = request.POST['tags'].split(',')
         tags = [tag.strip() for tag in tags]
@@ -53,7 +55,7 @@ def add_bookmark(request):
                 bookmark_tag = Bookmark_Tag(bookmark=bookmark_obj, tag=tag_obj)
                 bookmark_tag.save()
 
-    return HttpResponse('1')
+    return HttpResponse(dumps(ajax_success()))
 
 # ^api/tags
 def get_tags(request):
@@ -68,10 +70,10 @@ def get_tags(request):
 
         tag_response.append(resp)
 
-    return HttpResponse(dumps(tag_response))
+    return HttpResponse(dumps(ajax_success(tag_response)))
 
 # ^api/tag/(.*)
 def get_tag(request, tag_name):
     tag_obj = Tag.objects.get(name=tag_name)
 
-    return HttpResponse(dumps(tag_obj.get_bookmarks()))
+    return HttpResponse(dumps(ajax_success(tag_obj.get_bookmarks())))
