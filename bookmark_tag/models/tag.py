@@ -25,7 +25,7 @@ class Tag(models.Model):
         bookmark_list = []
         
         for bookmark in bookmarks:
-            resp = { "created_at": bookmark.created_at.strftime('%s'),
+            resp = { "created_at": bookmark.created_timestamp(),
                      "title":      bookmark.title,
                      "url":        bookmark.url,
                      "read":       bookmark.read }

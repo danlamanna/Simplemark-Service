@@ -12,8 +12,6 @@ from datetime import datetime
 
 from string import strip
 
-#from ajax import ajax_error
-
 # ^api/bookmarks
 def get_bookmarks(request):
     all_bookmarks = Bookmark.objects.all()    
@@ -22,7 +20,7 @@ def get_bookmarks(request):
 
     for bookmark in all_bookmarks:
         resp = { "id":         bookmark.id,
-                 "created_at": bookmark.created_at.strftime('%s'),
+                 "created_at": bookmark.created_timestamp(),
                  "title":      bookmark.title,
                  "url":        bookmark.url,
                  "read":       bookmark.read,
@@ -74,6 +72,9 @@ def get_tags(request):
 
 # ^api/tag/(.*)
 def get_tag(request, tag_name):
-    tag_obj = Tag.objects.get(name=tag_name)
+    try:
+        tag_obj = Tag.objects.get(name=tag_name)
+    except Tag.DoesNotExist:
+        return HttpResponse(dumps(ajax_success()))
 
     return HttpResponse(dumps(ajax_success(tag_obj.get_bookmarks())))

@@ -18,6 +18,10 @@ class Bookmark(models.Model):
                                             "read":       self.read,
                                             "tags":       self.get_tags() })
 
+    """ Returns created_at in the form of a UNIX timestamp. """
+    def created_timestamp(self):
+        return self.created_at.strftime('%s')
+
     """ Adds a tag to the bookmark, creates it if it doesn't already exist. """
     def add_tag(self, name):
         from string import strip
