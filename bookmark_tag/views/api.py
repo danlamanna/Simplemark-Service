@@ -14,7 +14,6 @@ from string import strip
 
 # ^api/bookmarks
 def get_bookmarks(request):
-#    return HttpResponse(ajax_error())
     all_bookmarks = Bookmark.objects.all()    
 
     bookmark_response = []
@@ -55,3 +54,24 @@ def add_bookmark(request):
                 bookmark_tag.save()
 
     return HttpResponse('1')
+
+# ^api/tags
+def get_tags(request):
+    all_tags = Tag.objects.all()
+
+    tag_response = []
+
+    for tag in all_tags:
+        resp = { "id":    tag.id,
+                 "name":  tag.name,
+                 "count": tag.num_occurrences() }
+
+        tag_response.append(resp)
+
+    return HttpResponse(dumps(tag_response))
+
+# ^api/tag/(.*)
+def get_tag(request, tag_name):
+    tag_obj = Tag.objects.get(name=tag_name)
+
+    return HttpResponse(dumps(tag_obj.get_bookmarks()))

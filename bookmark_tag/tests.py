@@ -37,5 +37,11 @@ class TagTestCase(unittest.TestCase):
                                               url=self.bookmark_params_dict['url'],
                                               read=self.bookmark_params_dict['read']).count(), 1)
 
+    def test_num_occurrences(self):
+        self.assertIs(self.test_tag.num_occurrences(), 1)
+
+    def test_get_bookmarks(self):
+        self.assertIs(len(self.test_tag.get_bookmarks()), 1)
+
     def test_tag_bookmark_relation(self):
         self.assertIs(Bookmark_Tag.objects.filter(tag=self.test_tag).count(), 1)
