@@ -70,6 +70,22 @@ def get_tags(request):
 
     return HttpResponse(dumps(ajax_success(tag_response)))
 
+# ^api/tags-like/(.*)
+# @needs_tests
+def get_tags_like(request, partial_tag):
+    tags_like = Tag.objects.filter(name__startswith=partial_tag)
+
+    tag_response = []
+
+    for tag in tags_like:
+        resp = { "id":    tag.id,
+                 "name":  tag.name,
+                 "count": tag.num_occurrences() }
+
+        tag_response.append(resp)
+
+    return HttpResponse(dumps(ajax_success(tag_response)))
+
 # ^api/tag/(.*)
 def get_tag(request, tag_name):
     try:
