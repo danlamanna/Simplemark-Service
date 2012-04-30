@@ -1,0 +1,27 @@
+{% extends "tags_base.djhtml" %}
+
+{% block head %}
+  <style>
+    body { margin:40px auto; padding:0; width:1400px; }
+    ul#tagged-in { list-style-type:none; padding-left:0; }
+    #tagged-in > li { padding:4px; border:1px solid #000; }
+    #tagged-in > li { border-bottom:0; }
+    #tagged-in > li:last-child { border-bottom: 1px solid #000; }
+  </style>
+{% endblock %}
+
+{% block title %}
+  Tagged in "{{ tag.name }}"
+{% endblock %}
+
+{% block content %}
+  <h3>Tagged in "{{ tag.name }}" ({{ count }})</h3>
+
+  <ul id="tagged-in">
+    {% for bookmark in bookmarks %}
+      <li>
+	<a href="http://{{ bookmark.url }}">{{ bookmark.title }}</a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

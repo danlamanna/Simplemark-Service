@@ -11,6 +11,13 @@ class Tag(models.Model):
 
         return "<Tag %s>" % pformat({ "name": self.name })
 
+    def delete(self, *args, **kwargs):
+        from bookmark_tag import Bookmark_Tag
+
+        Bookmark_Tag.objects.filter(tag=self).delete()
+
+        super(Tag, self).delete(*args, **kwargs)
+
     def num_occurrences(self):
         from bookmark_tag import Bookmark_Tag
 

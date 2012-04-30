@@ -1,0 +1,38 @@
+{% extends "bookmarks_base.djhtml" %}
+
+{% load bookmark_extras %}
+
+{% block title %}
+  All Bookmarks ({{ bookmarks|length }})
+{% endblock %}
+
+{% block head %}
+<style>
+  body { margin:40px auto; padding:0; width:1400px; }
+  ul#all-bookmarks { list-style-type:none; padding-left:0; }
+  #all-bookmarks li { padding:4px; border:1px solid #000; height:40px; }
+  #all-bookmarks li { border-bottom:0; }
+  #all-bookmarks li:last-child { border-bottom: 1px solid #000; }
+
+  #all-bookmarks li.single-bookmark span.tags { font-size:13px; }
+</style>
+{% endblock %}
+
+{% block content %}
+  <h3>All Bookmarks ({{ bookmarks|length }})</h3>
+  <ul id="all-bookmarks">
+    {% for bookmark in bookmarks %}
+      <li id="bookmark-{{ bookmark.id }}" class="single-bookmark">
+	<a href="http://{{ bookmark.url }}">{{ bookmark.title }}</a><br />
+	
+	<a style="float:right;" href="/bookmark/delete/{{ bookmark.id }}">x</a>
+
+	<span class="tags">	  
+	  {% for tag,count in bookmark.tag_counts.items %}
+	    <a href="/tags/{{ tag }}">{{ tag }}</a>({{ count }}) {% if not forloop.last %},{% endif %}
+	  {% endfor %}
+	</span>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

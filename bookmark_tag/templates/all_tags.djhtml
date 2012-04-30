@@ -1,0 +1,41 @@
+{% extends "tags_base.djhtml" %}
+
+{% block head %}
+  <style>
+  body { margin:40px auto; padding:0; width:1400px; }
+  h3,h5 { padding:0; margin:0; }
+  h3 { margin-top:8px; }
+  ul#all-tags { list-style-type:none; padding-left:0; }
+  #all-tags > li { padding:4px; border:1px solid #000; }
+  #all-tags > li { border-bottom:0; }
+  #all-tags > li:last-child { border-bottom: 1px solid #000; }
+
+  ul.bookmarks-in-tag { list-style-type:none; }
+  </style>
+{% endblock %}
+
+{% block title %}
+  All Tags ({{ tags|length }})
+{% endblock %}
+
+{% block content %}
+  <h3>All Tags ({{ tags|length }})</h3>
+  <h5>{{ tags|length }} tags across {{ bookmark_count }} bookmarks</h5>
+  
+  <ul id="all-tags">
+    {% for tag in tags %}
+      <li id="tag-{{ tag.id }}" class="single-tag">
+	<a href="/tags/{{ tag.name }}">{{ tag.name }}</a> ({{ tag.count }})<br />
+
+	<ul id="bookmarked-in-{{ tag.name }}" class="bookmarks-in-tag">
+	  {% for bookmark in tag.bookmarks %}
+	    <li class="single-bookmark-in-tag">- 
+	    <a href="{{ bookmark.url }}">{{ bookmark.title }}</a>
+	    </li>
+	  {% endfor %}
+	</ul>
+	
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

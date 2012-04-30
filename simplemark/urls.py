@@ -7,4 +7,13 @@ urlpatterns = patterns('bookmark_tag.views',
                        url(r'^api/tags$',           'get_tags'),
                        url(r'^api/tag/(.*)$',       'get_tag'),
                        url(r'^api/tags-like/(.*)$', 'get_tags_like'),
+
+                       # Bookmark
+                       url(r'^bookmarks/all$',        'all_bookmarks'),
+                       url(r'^bookmarks/new$',         'new_bookmark'),
+                       url(r'^bookmark/delete/(.*)$', 'delete_bookmark'),
+
+                       # Tag
+                       url(r'^tags/all$',           'all_tags'),
+                       url(r'^tags/(.*)$',          'single_tag'),
 )

@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>{% block title %}{% endblock %}</title>
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+  <a href="/bookmarks/new">Add Bookmark</a> | <a href="/bookmarks/all">Bookmarks</a> | <a href="/tags/all">Tags</a>
+    <div id="content">
+      {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

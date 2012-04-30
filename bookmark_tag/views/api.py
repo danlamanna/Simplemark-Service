@@ -42,6 +42,8 @@ def add_bookmark(request):
         tags = request.POST['tags'].split(',')
         tags = [tag.strip() for tag in tags]
 
+        # @todo - remove blank tags
+
     bookmark_obj, created = Bookmark.objects.get_or_create(title=request.POST['title'], url=request.POST['url'])
     
     if (has_tags):
